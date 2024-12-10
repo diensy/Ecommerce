@@ -6,6 +6,7 @@ import auth from "./Routes/auth/auth.js";
 import adminProductsRouter from "./Routes/admin/product-routes.js";
 import shopProductRouter from "./Routes/shop/shop.js";
 import shopCartRouter from "./Routes/shop/cart.js";
+import shopAddressRouter from "./Routes/shop/address.js";
 import Stripe from "stripe";
 import dotenv from "dotenv";
 // Connect the DataBase
@@ -45,6 +46,7 @@ app.use("/api/auth", auth);
 app.use("/api/admin/products", adminProductsRouter);
 app.use("/api/shop/products", shopProductRouter);
 app.use("/api/shop/cart", shopCartRouter);
+app.use("/api/shop/address", shopAddressRouter);
 app.listen(PORT, () => console.log(`Server is running on port ${PORT}`));
 
 // for payment
