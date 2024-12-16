@@ -4,8 +4,9 @@ import { ShoppingCart } from "lucide-react";
 import { Button } from "../ui/button";
 import CartContain from "./CartContain";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
-const CartWrapper = ({ cartItems }) => {
+const CartWrapper = ({ cartItems, setOpenCartSheet }) => {
   const totalAmount =
     cartItems && cartItems.length > 0
       ? cartItems.reduce((sum, currentItem) => {
@@ -17,7 +18,7 @@ const CartWrapper = ({ cartItems }) => {
           return sum + itemPrice * itemQuantity;
         }, 0)
       : 0;
-
+  const navigate = useNavigate();
   const handleCheckout = async () => {
     try {
       const response = await axios.post("http://localhost:5000/checkout", {
@@ -43,7 +44,9 @@ const CartWrapper = ({ cartItems }) => {
         </SheetHeader>
         <div className="mt-8 space-y-4">
           {cartItems && cartItems.length > 0 ? (
-            cartItems.map((item,index) => <CartContain key={index}  cartItems={item} />)
+            cartItems.map((item, index) => (
+              <CartContain key={index} cartItems={item} />
+            ))
           ) : (
             <p>Your Cart is Empty</p>
           )}
@@ -54,7 +57,13 @@ const CartWrapper = ({ cartItems }) => {
             <span className="font-bold">₹{totalAmount}</span>
           </div>
         </div>
-        <Button onClick={handleCheckout} className="w-full">
+        <Button
+          onClick={() => {
+            navigate("/shop/checkout");
+            setOpenCartSheet(false);
+          }}
+          className="w-full"
+        >
           Checkout
         </Button>
       </SheetContent>
